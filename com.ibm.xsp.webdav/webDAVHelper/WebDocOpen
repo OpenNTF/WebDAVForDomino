@@ -1,0 +1,75 @@
+#!/bin/bash
+#Launches a URL with the application it was made with rather than the browser
+#Good for webDAV servers
+#* ========================================================================== *
+#* Copyright (C) 2012, 2013 IBM Corporation                                   *
+#*                            All rights reserved.                            *
+#* ========================================================================== *
+#*                                                                            *
+#* Licensed under the  Apache License, Version 2.0  (the "License").  You may *
+#* not use this file except in compliance with the License.  You may obtain a *
+#* copy of the License at <http://www.apache.org/licenses/LICENSE-2.0>.       *
+#*                                                                            *
+#* Unless  required  by applicable  law or  agreed  to  in writing,  software *
+#* distributed under the License is distributed on an  "AS IS" BASIS, WITHOUT *
+#* WARRANTIES OR  CONDITIONS OF ANY KIND, either express or implied.  See the *
+#* License for the  specific language  governing permissions  and limitations *
+#* under the License.                                                         *
+#*                                                                            *
+#* ========================================================================== */
+#What do we support - adjust to your needs
+supported_extensions="odp odt ods xls doc ppt txt pdf"
+
+#Get the http(s) url from webdav(s)
+FULLURL1=${1/webdav:/http:}
+FULLURL=${FULLURL1/webdavs:/https:}
+
+#Get the extension
+EXTENSION=${FULLURL/*./}
+
+#check if the extension is a supported file type
+SUPPORTED=NO
+for check in $supported_extensions
+do
+	[ "$check" = "$EXTENSION" ] && SUPPORTED=YES && break
+done
+if [ "$SUPPORTED" = "NO" ]; then
+ echo "Sorry, we don't allow $EXTENSION on webDAV urls"
+ exit 1
+fi
+
+# Make a sample file (temp only)
+SAMPLENAME=$HOME/~webdavhelpersample.$EXTENSION
+touch $SAMPLENAME
+
+#Get the mime type
+CURMINE=$(xdg-mime query filetype $SAMPLENAME)
+
+#Remove the temp file
+rm $SAMPLENAME
+
+# Retrieve the desktop file from mime type
+CURDSK=$(xdg-mime query default $CURMINE)
+
+#Find the desktop file, we could use locate, but this is faster
+#We start in the user directory since there might be a user setting
+if [ -f /.local/share/applications/$CURDSK ]; then
+     TRUEDSK=/.local/share/applications/$CURDSK
+elif [ -f /usr/local/share/applications/$CURDSK ]; then
+     TRUEDSK=/usr/local/share/applications/$CURDSK
+elif [ -f  /usr/share/applications/$CURDSK ]; then
+     TRUEDSK=/usr/share/applications/$CURDSK
+else
+    echo "Sorry no executable found for $1"
+    exit 1
+fi
+
+#Grab the executable and add the URL
+WHATTODO=$(grep "^Exec" $TRUEDSK | head -1 | sed "s/Exec=//; s^\%U^$FULLURL^;")
+
+#Run it
+$WHATTODO &
+exit 0
+
+
+
