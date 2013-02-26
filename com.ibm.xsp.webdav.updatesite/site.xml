@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.ibm.xsp.webdav.feature_1.0.0.201210011431.jar" id="com.ibm.xsp.webdav.feature" version="1.0.0.201210011431"/>
+   <category-def name="OpenNTFwebDDAV" label="OpenNTF Domino WebDAV">
+      <description>
+         WebDAV support for Domino
+      </description>
+   </category-def>
+</site>

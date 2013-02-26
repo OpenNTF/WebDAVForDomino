@@ -1,0 +1,23 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: WebDAV Files Plug-in
+Bundle-SymbolicName: com.ibm.xsp.webdav;singleton:=true
+Bundle-Version: 1.0.3.qualifier
+Bundle-Vendor: IBM
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: com.ibm.pvc.servlet,
+ org.apache.commons.logging,
+ com.ibm.domino.osgi.core
+Export-Package: biz.taoconsulting.dominodav,
+ biz.taoconsulting.dominodav.exceptions,
+ biz.taoconsulting.dominodav.interfaces,
+ biz.taoconsulting.dominodav.methods,
+ biz.taoconsulting.dominodav.repository,
+ biz.taoconsulting.dominodav.resource,
+ com.ibm.xsp.webdav,
+ com.ibm.xsp.webdav.domino,
+ com.ibm.xsp.webdav.interfaces,
+ com.ibm.xsp.webdav.methods,
+ com.ibm.xsp.webdav.repository,
+ com.ibm.xsp.webdav.resource
+ 

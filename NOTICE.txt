@@ -1,0 +1,11 @@
+OpenNTF WebDav Servlet
+(C)Copyright 2012, 2013 IBM Corporation
+
+This product includes software contributed to
+OpenNTF Alliance (http://www.OpenNTF.org/)
+
+This product is licensed under the terms of the Apache 2.0 license.
+
+This product includes DominoDav
+Licensed under APache 2.0
+Available from http://dominodav.sourceforge.net/ - 
